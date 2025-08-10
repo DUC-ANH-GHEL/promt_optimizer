@@ -1,6 +1,6 @@
 <!-- 输入面板组件 -->
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 input-panel">
     <!-- 标题 -->
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
       <label class="block text-lg theme-label">{{ label }}</label>
@@ -30,15 +30,15 @@
     </div>
 
     <!-- 控制面板 -->
-    <div class="flex items-center gap-2">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-2">
       <!-- 模型选择 -->
-      <div class="min-w-[120px] w-fit shrink-0">
+      <div class="min-w-[120px] w-full sm:w-fit shrink-0">
         <label class="block text-sm theme-label mb-1.5">{{ modelLabel }}</label>
         <slot name="model-select"></slot>
       </div>
       
       <!-- 提示词模板选择 -->
-      <div v-if="templateLabel" class="flex-1 min-w-0">
+      <div v-if="templateLabel" class="flex-1 min-w-0 w-full sm:w-auto">
         <label class="block text-sm theme-label mb-1.5 truncate">{{ templateLabel }}</label>
         <slot name="template-select"></slot>
       </div>
@@ -47,7 +47,7 @@
       <slot name="control-buttons"></slot>
 
       <!-- 提交按钮 -->
-      <div class="min-w-[60px]">
+      <div class="min-w-[60px] w-full sm:w-auto">
         <div class="h-[20px] mb-1.5"><!-- 占位，与其他元素对齐 --></div>
         <button
           @click="$emit('submit')"
@@ -131,3 +131,48 @@ const { isFullscreen, fullscreenValue, openFullscreen } = useFullscreen(
   (value) => emit('update:modelValue', value)
 )
 </script>
+
+<style scoped>
+.input-panel {
+  /* 确保在mobile上正确显示 */
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: auto !important;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .input-panel {
+    /* 确保在mobile上占满宽度 */
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* 确保textarea在mobile上正确显示 */
+  .input-panel textarea {
+    min-height: 120px !important;
+    font-size: 16px !important; /* 防止iOS zoom */
+  }
+  
+  /* 确保control panel在mobile上正确布局 */
+  .input-panel .flex-col {
+    gap: 1rem !important;
+  }
+  
+  /* 确保按钮在mobile上占满宽度 */
+  .input-panel button {
+    width: 100% !important;
+  }
+}
+
+/* 确保在所有情况下都可见 */
+.input-panel {
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: visible !important;
+}
+</style>

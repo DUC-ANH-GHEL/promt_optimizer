@@ -51,8 +51,8 @@
       </template>
 
       <!-- Main Content -->
-      <ContentCardUI class="flex-1 min-w-0 flex flex-col">
-        <div class="flex-none">
+      <ContentCardUI class="flex-1 min-w-0 flex flex-col main-content-card">
+        <div class="flex-none input-section">
           <InputPanelUI
             v-model="optimizer.prompt"
             v-model:selectedModel="modelManager.selectedOptimizeModel"
@@ -98,7 +98,7 @@
             </template>
           </InputPanelUI>
         </div>
-        <div class="flex-1 min-h-0">
+        <div class="flex-1 min-h-0 output-section">
           <template v-if="services && services.templateManager">
             <PromptPanelUI
               ref="promptPanelRef"
@@ -454,5 +454,63 @@ const promptInputPlaceholder = computed(() => {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Mobile layout improvements */
+.main-content-card {
+  /* 确保在mobile上正确显示 */
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.input-section {
+  /* 确保输入部分在mobile上可见 */
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.output-section {
+  /* 确保输出部分在mobile上可见 */
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .main-content-card {
+    /* 确保在mobile上正确布局 */
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .input-section {
+    /* 确保输入部分在mobile上占满宽度 */
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .output-section {
+    /* 确保输出部分在mobile上占满宽度 */
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* 确保在所有情况下都可见 */
+.main-content-card,
+.input-section,
+.output-section {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: auto !important;
 }
 </style>
